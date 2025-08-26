@@ -1,1 +1,10 @@
-/* You can add global styles to this file, and also import other style files */
+@use "styles/vars" as vars;
+
+body, html {
+  color: vars.$color-text;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: vars.$color-background;
+}
