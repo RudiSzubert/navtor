@@ -1,0 +1,36 @@
+@use "../../../styles/vars" as vars;
+
+.menu {
+  background-color: rgba(6, 6, 28, 0.7); // semi-transparent overlay
+  padding: 2rem 3rem;
+  box-shadow: 0 0 20px vars.$color-accent;
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+
+    li {
+      text-align: center;
+
+      a {
+        text-decoration: none;
+        color: vars.$color-text;
+        font-size: 1.5rem;
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        border-radius: 0.5rem;
+        display: inline-block;
+        transition: background 0.3s, color 0.3s;
+
+        &:hover {
+          background-color: vars.$color-highlight;
+          color: vars.$color-background;
+        }
+      }
+    }
+  }
+}
