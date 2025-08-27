@@ -1,9 +1,25 @@
 import { Routes } from '@angular/router';
-import { VesselsComponent } from './components/vessels/vessels';
-import { EmissionsComponent } from './components/emissions/emissions';
 import { paths } from './configs/paths';
+import { provideState } from '@ngrx/store';
+import { emissionsReducer } from './reducers/emissions.reducer';
+import { provideEffects } from '@ngrx/effects';
+import { EmissionsEffects, EmissionsService } from './services/emissions.service';
+import { emissionsResolver, values } from './store/emissions.store';
 
 export const routes: Routes = [
-  { path: paths.vessels, component: VesselsComponent },
-  { path: paths.emissions, component: EmissionsComponent },
+  { path: paths.vessels,
+    loadComponent: () => import('./components/vessels/vessels').then(m => m.VesselsComponent)
+  },
+  {
+    path: paths.emissions,
+    loadComponent: () => import('./components/emissions/emissions').then(m => m.EmissionsComponent),
+    providers: [
+      EmissionsService,
+      EmissionsEffects,
+      provideState(values.emissions, emissionsReducer),
+      provideEffects(EmissionsEffects)
+    ],
+    resolve: { preload: emissionsResolver }
+  },
 ];
+
