@@ -1,12 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { AgGridAngular } from 'ag-grid-angular';
+import { AsyncPipe } from '@angular/common';
+import { colDefs } from '../../configs/grid.config';
+import { ColDef } from 'ag-grid-community';
+import { Observable } from 'rxjs';
+import { Vessel } from '../../interfaces/vessel';
 
 @Component({
   selector: 'app-vessels',
-  imports: [],
+  imports: [AgGridAngular, AsyncPipe],
   templateUrl: './vessels.html',
   styleUrl: './vessels.scss'
 })
 export class VesselsComponent {
-  private store = inject(Store);
+  public vessels: Observable<{ vessels: Vessel[] }> = inject(Store).pipe(select(state => state.vessels));
+  public colDefs: ColDef[] = colDefs;
 }

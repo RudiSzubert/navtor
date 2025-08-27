@@ -6,7 +6,7 @@ import { provideEffects } from '@ngrx/effects';
 import { EmissionsEffects, EmissionsService } from './services/emissions.service';
 import { emissionsResolver, emissionsValues } from './store/emissions.store';
 import { VesselsEffects, VesselsService } from './services/vessels';
-import { vesselsResolver, vesselsValues } from './store/vessels.store';
+import { registerAgGrid, vesselsResolver, vesselsValues } from './store/vessels.store';
 import { vesselsReducer } from './reducers/vessels.reducer';
 
 export const routes: Routes = [
@@ -18,7 +18,7 @@ export const routes: Routes = [
       provideState(vesselsValues.vessels, vesselsReducer),
       provideEffects(VesselsEffects)
     ],
-    resolve: { preload: vesselsResolver }
+    resolve: { preload: vesselsResolver, registerAgGrid: registerAgGrid }
   },
   {
     path: paths.emissions,

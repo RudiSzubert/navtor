@@ -7,4 +7,6 @@ body, html {
   height: 100%;
   font-family: 'Segoe UI', sans-serif;
   background-color: vars.$color-background;
+  --ag-background-color: vars.$color-background;
+  --ag-text-color: vars.$color-text;
 }
