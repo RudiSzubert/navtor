@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { fetchEmissions } from '../actions/emissions.actions';
 
-export const values = {
+export const emissionsValues = {
   emissions: 'emissions'
 }
 

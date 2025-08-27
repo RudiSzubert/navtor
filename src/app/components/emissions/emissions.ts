@@ -1,6 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { values } from '../../store/emissions.store';
 
 @Component({
   selector: 'app-emissions',
@@ -8,15 +7,6 @@ import { values } from '../../store/emissions.store';
   templateUrl: './emissions.html',
   styleUrl: './emissions.scss'
 })
-export class EmissionsComponent implements OnInit {
+export class EmissionsComponent {
   private store = inject(Store);
-
-  ngOnInit() {
-    this.store.select(values.emissions).subscribe((state) => {
-      console.log(state);
-    });
-  }
-
-
-
 }

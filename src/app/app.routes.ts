@@ -4,11 +4,21 @@ import { provideState } from '@ngrx/store';
 import { emissionsReducer } from './reducers/emissions.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { EmissionsEffects, EmissionsService } from './services/emissions.service';
-import { emissionsResolver, values } from './store/emissions.store';
+import { emissionsResolver, emissionsValues } from './store/emissions.store';
+import { VesselsEffects, VesselsService } from './services/vessels';
+import { vesselsResolver, vesselsValues } from './store/vessels.store';
+import { vesselsReducer } from './reducers/vessels.reducer';
 
 export const routes: Routes = [
   { path: paths.vessels,
-    loadComponent: () => import('./components/vessels/vessels').then(m => m.VesselsComponent)
+    loadComponent: () => import('./components/vessels/vessels').then(m => m.VesselsComponent),
+    providers: [
+      VesselsService,
+      VesselsEffects,
+      provideState(vesselsValues.vessels, vesselsReducer),
+      provideEffects(VesselsEffects)
+    ],
+    resolve: { preload: vesselsResolver }
   },
   {
     path: paths.emissions,
@@ -16,7 +26,7 @@ export const routes: Routes = [
     providers: [
       EmissionsService,
       EmissionsEffects,
-      provideState(values.emissions, emissionsReducer),
+      provideState(emissionsValues.emissions, emissionsReducer),
       provideEffects(EmissionsEffects)
     ],
     resolve: { preload: emissionsResolver }

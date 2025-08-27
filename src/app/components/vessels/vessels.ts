@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-vessels',
@@ -7,5 +8,5 @@ import { Component } from '@angular/core';
   styleUrl: './vessels.scss'
 })
 export class VesselsComponent {
-
+  private store = inject(Store);
 }
