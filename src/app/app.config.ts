@@ -10,8 +10,12 @@ import { routes } from './app.routes';
 import { environment } from '../env/environment.development';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { urlInterceptor } from './interceptors/url.interceptor';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import { provideHighcharts } from 'highcharts-angular';
+import { vesselsValues } from './store/vessels.store';
+import { vesselsReducer } from './reducers/vessels.reducer';
+import { VesselsEffects } from './services/vessels';
 
 export const API_URL = new InjectionToken<string>('API_URL');
 
@@ -23,6 +27,9 @@ export const appConfig: ApplicationConfig = {
       { provide: API_URL, useValue: environment.apiUrl },
     provideHttpClient(withInterceptors([urlInterceptor])),
     provideStore(),
-    provideEffects()
+    provideEffects(),
+    provideHighcharts(),
+    provideState(vesselsValues.vessels, vesselsReducer),
+    provideEffects(VesselsEffects)
   ],
 };

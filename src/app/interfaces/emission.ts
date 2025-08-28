@@ -6,6 +6,7 @@ export interface Emission {
   nox_emissions: number;
   pm_emissions: number;
   ch4_emissions: number;
+  [key: string]: any
 }
 
 export interface EmissionsResponse {

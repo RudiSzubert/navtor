@@ -5,7 +5,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { vesselsActionsNames, fetchVessels } from '../actions/vessels.actions';
 import { catchError, EMPTY, exhaustMap, map } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class VesselsService {
   private http = inject(HttpClient);
 
@@ -14,7 +14,7 @@ export class VesselsService {
   }
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class VesselsEffects {
   private actions$ = inject(Actions);
   private vesselsService = inject(VesselsService);

@@ -5,20 +5,12 @@ import { emissionsReducer } from './reducers/emissions.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { EmissionsEffects, EmissionsService } from './services/emissions.service';
 import { emissionsResolver, emissionsValues } from './store/emissions.store';
-import { VesselsEffects, VesselsService } from './services/vessels';
-import { registerAgGrid, vesselsResolver, vesselsValues } from './store/vessels.store';
-import { vesselsReducer } from './reducers/vessels.reducer';
+import { registerAgGrid } from './store/vessels.store';
 
 export const routes: Routes = [
   { path: paths.vessels,
     loadComponent: () => import('./components/vessels/vessels').then(m => m.VesselsComponent),
-    providers: [
-      VesselsService,
-      VesselsEffects,
-      provideState(vesselsValues.vessels, vesselsReducer),
-      provideEffects(VesselsEffects)
-    ],
-    resolve: { preload: vesselsResolver, registerAgGrid: registerAgGrid }
+    resolve: { registerAgGrid: registerAgGrid }
   },
   {
     path: paths.emissions,
