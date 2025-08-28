@@ -1,0 +1,7 @@
+@if (vessels$ | async; as ves) {
+  <select (change)="change($event)">
+    @for (v of ves.matchedVessels; track v.id) {
+      <option value="{{ v.id }}">{{ v.name }}</option>
+    }
+  </select>
+}

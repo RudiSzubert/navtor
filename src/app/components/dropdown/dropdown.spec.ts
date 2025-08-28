@@ -1,17 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { Dropdown } from './dropdown';
 
-describe('EmissionsService', () => {
-  let component: Emissions;
-  let fixture: ComponentFixture<Emissions>;
+describe('Dropdown', () => {
+  let component: Dropdown;
+  let fixture: ComponentFixture<Dropdown>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Emissions]
+      imports: [Dropdown]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Emissions);
+    fixture = TestBed.createComponent(Dropdown);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

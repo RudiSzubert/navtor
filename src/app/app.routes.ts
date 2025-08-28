@@ -4,8 +4,13 @@ import { provideState } from '@ngrx/store';
 import { emissionsReducer } from './reducers/emissions.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { EmissionsEffects, EmissionsService } from './services/emissions.service';
-import { emissionsResolver, emissionsValues } from './store/emissions.store';
-import { registerAgGrid } from './store/vessels.store';
+import { emissionsResolver } from './resolvers/emissions.resolver';
+import { registerAgGrid } from './resolvers/vessels.resolver';
+import { VesselEmissionsService } from './services/vessel-emissions-service';
+import { matchVesselsReducer } from './reducers/matchVessels.reducer';
+import { ChartDataService } from './services/chart-data-service';
+import { chartReducer } from './reducers/chart.reducer';
+import { selectVesselStateReducer } from './reducers/selectVessel.reducer';
 
 export const routes: Routes = [
   { path: paths.vessels,
@@ -18,7 +23,12 @@ export const routes: Routes = [
     providers: [
       EmissionsService,
       EmissionsEffects,
-      provideState(emissionsValues.emissions, emissionsReducer),
+      VesselEmissionsService,
+      ChartDataService,
+      provideState('emissions', emissionsReducer),
+      provideState('matchedVessels', matchVesselsReducer),
+      provideState('series', chartReducer),
+      provideState('vehicleId', selectVesselStateReducer),
       provideEffects(EmissionsEffects)
     ],
     resolve: { preload: emissionsResolver }

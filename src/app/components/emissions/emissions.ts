@@ -1,54 +1,33 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { emissionsValues } from '../../store/emissions.store';
-import { HighchartsChartComponent } from 'highcharts-angular';
+import { Component, inject, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import * as Highcharts from 'highcharts';
-import { chartSeries } from '../../configs/grid.config';
-import { Emission } from '../../interfaces/emission';
+import { Dropdown } from '../dropdown/dropdown';
+import { ChartDataService } from '../../services/chart-data-service';
 
 @Component({
   selector: 'app-emissions',
   imports: [
-    HighchartsChartComponent
+    Dropdown
   ],
   templateUrl: './emissions.html',
   styleUrl: './emissions.scss',
 })
-export class EmissionsComponent implements OnInit, OnDestroy {
+export class EmissionsComponent implements OnInit {
   private store = inject(Store);
-  private sub: any;
-
-  public chartOptions?: Highcharts.Options;
+  private chartService = inject(ChartDataService);
 
   ngOnInit() {
-    this.sub = this.store.select(emissionsValues.emissions).subscribe((state) => {
-      const s = JSON.parse(JSON.stringify(chartSeries));
-      const series: Highcharts.SeriesOptionsType[] = [] as unknown as Highcharts.SeriesOptionsType[];
-      s.forEach((item: {data: [], emission_name: string}) => {
-        item.data = state.emissions[0].timeSeries.map((elem: Emission) => {
-          return [elem.report_from_utc, elem[item.emission_name]];
-        })
-        series.push(item as unknown as Highcharts.SeriesOptionsType);
-      })
-
-      if (!this.chartOptions) {
-        this.chartOptions = {
-          chart: {
-            zooming: { type: 'xy' },
-          },
-          title: { text: 'Example' },
-          xAxis: { type: 'datetime' },
-          yAxis: [{ title: { text: 'other gases' }, opposite: true }, { title: { text: 'CO₂ scale' } }],
-          series: series
-        }
-      } else {
-        // update
-      }
-    });
-  }
-
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.store.pipe(select(state => state.series)).subscribe(series => {
+      // @ts-ignore I have no idea why this throws errors
+      this.chart = Highcharts.chart('highchart-wrapper', {
+        chart: {
+          zooming: { type: 'xy' },
+        },
+        title: { text: '' },
+        xAxis: { type: 'datetime' },
+        yAxis: [{ title: { text: 'other gases' }, opposite: true }, { title: { text: 'CO₂ scale' } }],
+        series: series.series
+      });
+    })
   }
 }

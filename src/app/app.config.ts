@@ -13,7 +13,6 @@ import { urlInterceptor } from './interceptors/url.interceptor';
 import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideHighcharts } from 'highcharts-angular';
-import { vesselsValues } from './store/vessels.store';
 import { vesselsReducer } from './reducers/vessels.reducer';
 import { VesselsEffects } from './services/vessels';
 
@@ -29,7 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideEffects(),
     provideHighcharts(),
-    provideState(vesselsValues.vessels, vesselsReducer),
+    provideState('vessels', vesselsReducer),
     provideEffects(VesselsEffects)
   ],
 };
