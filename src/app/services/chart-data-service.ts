@@ -3,13 +3,21 @@ import { select, Store } from '@ngrx/store';
 import { take } from 'rxjs';
 import { chartSeries } from '../configs/grid.config';
 import { Emission, EmissionsResponse } from '../interfaces/emission';
-import { seriesCreated } from '../actions/chart.actions';
+import { createSeries, seriesCreated } from '../actions/chart.actions';
+import { Actions, ofType } from '@ngrx/effects';
 
 @Injectable()
 export class ChartDataService {
   private store = inject(Store);
+  private actions$ = inject(Actions);
 
   constructor() {
+    this.actions$.pipe(ofType(createSeries), take(1)).subscribe(e => {
+      this.startCreatingSeries();
+    });
+  }
+
+  private startCreatingSeries() {
     this.store.pipe(select(state => state.vehicleId)).subscribe((vehicleId) => {
       if (vehicleId) {
         this.store.pipe(select(state => state.emissions), take(1))

@@ -6,5 +6,6 @@ export const initialState: Highcharts.SeriesOptionsType[] = [];
 
 export const chartReducer = createReducer(
   initialState,
+  on(ChartActions.createSeries, (state) => ({ ...state })),
   on(ChartActions.seriesCreated, (state, { series }) => series)
 );

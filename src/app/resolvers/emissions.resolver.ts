@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { match } from '../actions/matchVessels.actions';
 import { VesselEmissionsService } from '../services/vessel-emissions-service';
 import { ChartDataService } from '../services/chart-data-service';
+import { createSeries } from '../actions/chart.actions';
 
 export const emissionsResolver: ResolveFn<void> = (): void => {
   const store = inject(Store);
@@ -15,6 +16,7 @@ export const emissionsResolver: ResolveFn<void> = (): void => {
     .subscribe((emissions) => {
       if (!emissions.length) {
         store.dispatch(match());
+        store.dispatch(createSeries());
         store.dispatch(fetchEmissions());
       }
   });
