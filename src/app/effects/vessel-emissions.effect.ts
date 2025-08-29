@@ -8,29 +8,24 @@ import { matchVesselsActionsNames } from '../actions/matchVessels.actions';
 import { fetchEmissionsSuccess } from '../actions/emissions.actions';
 
 @Injectable()
-export class VesselEmissionsService {
-  public matchVessels([emissions, vessels]: [{ emissions: EmissionsResponse[] }, Vessel[] ]) {
-    const matchedVessels = emissions.emissions.map((e: EmissionsResponse) => vessels.find((v: Vessel) => v.id === e.id));
-    return of(matchedVessels);
-  }
-}
-
-
-@Injectable()
 export class VesselEmissionsEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
-  private vesselEmission = inject(VesselEmissionsService);
 
   matchVessels$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(fetchEmissionsSuccess),
       withLatestFrom(this.store.pipe(select(state => state.vessels))),
-      exhaustMap(args => this.vesselEmission.matchVessels(args)
+      exhaustMap(args => this.matchVessels(args)
         .pipe(
           map(vessels => ({ type: matchVesselsActionsNames.matched, matchedVessels: vessels })),
           catchError(() => EMPTY)
         ))
     );
   });
+
+  private matchVessels([emissions, vessels]: [{ emissions: EmissionsResponse[] }, Vessel[] ]) {
+    const matchedVessels = emissions.emissions.map((e: EmissionsResponse) => vessels.find((v: Vessel) => v.id === e.id));
+    return of(matchedVessels);
+  }
 }

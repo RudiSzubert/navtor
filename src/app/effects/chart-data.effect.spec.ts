@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChartDataService } from './chart-data-service';
+import { ChartDataService } from './chart-data.effect';
 
 describe('ChartDataService', () => {
   let service: ChartDataService;
