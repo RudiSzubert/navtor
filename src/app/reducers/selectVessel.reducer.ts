@@ -5,5 +5,5 @@ export const initialState: number = 0;
 
 export const selectVesselStateReducer = createReducer(
   initialState,
-  on(SelectVesselActions.vesselSelected, (state, { vehicleId }) => vehicleId)
+  on(SelectVesselActions.vesselSelected, (state, { vesselId }) => vesselId)
 );

@@ -5,5 +5,5 @@ export const selectActionsNames = {
 };
 
 export const vesselSelected =
-  createAction(selectActionsNames.vesselSelected, props<{ vehicleId: number }>());
+  createAction(selectActionsNames.vesselSelected, props<{ vesselId: number }>());
 

@@ -1,42 +1,38 @@
 import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { take } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, map, of, withLatestFrom } from 'rxjs';
 import { chartSeries } from '../configs/grid.config';
 import { Emission, EmissionsResponse } from '../interfaces/emission';
-import { createSeries, seriesCreated } from '../actions/chart.actions';
-import { Actions, ofType } from '@ngrx/effects';
+import { chartActionsNames } from '../actions/chart.actions';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { vesselSelected } from '../actions/selectVessel.actions';
 
 @Injectable()
 export class ChartDataService {
   private store = inject(Store);
   private actions$ = inject(Actions);
 
-  constructor() {
-    this.actions$.pipe(ofType(createSeries), take(1)).subscribe(e => {
-      this.startCreatingSeries();
-    });
-  }
+  createSeries$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(vesselSelected),
+      withLatestFrom(this.store.pipe(select(state => state.emissions))),
+      exhaustMap((args, b) => this.createSeries(args)
+        .pipe(
+          map(series => ({ type: chartActionsNames.seriesCreated, series: series })),
+          catchError(() => EMPTY)
+        ))
+    );
+  });
 
-  private startCreatingSeries() {
-    this.store.pipe(select(state => state.vehicleId)).subscribe((vehicleId) => {
-      if (vehicleId) {
-        this.store.pipe(select(state => state.emissions), take(1))
-          .subscribe((emissions) => {
-            this.createSeries(emissions.find((e: any) => e.id === vehicleId));
-          });
-      }
-    })
-  }
+  private createSeries([vesselId, emissions]: [{ vesselId: number }, EmissionsResponse[]]) {
+    const series = JSON.parse(JSON.stringify(chartSeries));
+    const emission: EmissionsResponse = emissions.find((e: any) => e.id === vesselId.vesselId) as EmissionsResponse;
 
-  private createSeries(emission: EmissionsResponse) {
-    const s = JSON.parse(JSON.stringify(chartSeries));
-
-    s.forEach((item: { data: Array<[string, number]>, emission_name: string }) => {
+    series.forEach((item: { data: Array<[string, number]>, emission_name: string }) => {
       item.data = emission.timeSeries.map((elem: Emission) => {
         return [elem.report_from_utc, elem[item.emission_name]];
       })
     })
-
-    this.store.dispatch(seriesCreated({series: s}))
+    return of(series);
   }
 }

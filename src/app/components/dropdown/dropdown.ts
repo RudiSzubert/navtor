@@ -16,15 +16,15 @@ import { Vessel } from '../../interfaces/vessel';
 })
 export class Dropdown implements OnInit {
   private store = inject(Store);
-  public vessels$: Observable<Vessel[]> = this.store.pipe(select(state => state.matchedVessels));
+  protected vessels$: Observable<Vessel[]> = this.store.pipe(select(state => state.matchedVessels));
 
   ngOnInit() {
     this.vessels$.pipe(take(1)).subscribe(vessels => {
-      this.store.dispatch(vesselSelected({ vehicleId: vessels[0].id }))
+      this.store.dispatch(vesselSelected({ vesselId: vessels[0].id }))
     });
   }
 
   public change(e: any) {
-    this.store.dispatch(vesselSelected({vehicleId: +e.target.value}))
+    this.store.dispatch(vesselSelected({vesselId: +e.target.value}))
   }
 }

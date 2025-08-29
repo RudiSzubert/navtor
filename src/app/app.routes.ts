@@ -28,8 +28,8 @@ export const routes: Routes = [
       provideState('emissions', emissionsReducer),
       provideState('matchedVessels', matchVesselsReducer),
       provideState('series', chartReducer),
-      provideState('vehicleId', selectVesselStateReducer),
-      provideEffects(EmissionsEffects)
+      provideState('vesselId', selectVesselStateReducer),
+      provideEffects(EmissionsEffects, ChartDataService)
     ],
     resolve: { preload: emissionsResolver }
   },
