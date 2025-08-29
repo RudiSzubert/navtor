@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "id": 10001,
+      "name": "MS Alpha",
+      "mmsi": 999999901,
+      "imo": 1023401,
+      "companyId": 2301,
+      "companyName": "Alpha Company",
+      "startDate": "1998-01-01T00:00:00Z",
+      "active": true,
+      "vesselType": "Dry Cargo"
+    },
+    {
+      "id": 10002,
+      "name": "MS Bravo",
+      "mmsi": 999999902,
+      "imo": 1023402,
+      "companyId": 2302,
+      "companyName": "Bravo Company",
+      "startDate": "1999-02-02T00:00:00Z",
+      "active": true,
+      "vesselType": "General Cargo"
+    },
+    {
+      "id": 10003,
+      "name": "MS Charlie",
+      "mmsi": 999999903,
+      "imo": 1023403,
+      "companyId": 2303,
+      "companyName": "Charlie Company",
+      "startDate": "2000-03-03T00:00:00Z",
+      "active": true,
+      "vesselType": "Bulk Carrier"
+    }
+  ]}

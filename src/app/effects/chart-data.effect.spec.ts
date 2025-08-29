@@ -11,7 +11,7 @@ import { vesselSelected } from '../actions/selectVessel.actions';
 import { seriesCreated } from '../actions/chart.actions';
 import * as Highcharts from 'highcharts';
 
-fdescribe('ChartDataEffect', () => {
+describe('ChartDataEffect', () => {
   let effect: ChartEffects;
   let actions$: ReplaySubject<any> = new ReplaySubject();
   const initialState = { vesselId: 0, emissions: data };
