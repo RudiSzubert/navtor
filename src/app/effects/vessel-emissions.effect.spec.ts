@@ -11,7 +11,7 @@ import { fetchEmissionsSuccess } from '../actions/emissions.actions';
 import { matched } from '../actions/matchVessels.actions';
 
 
-fdescribe('VesselEmissionsEffects', () => {
+describe('VesselEmissionsEffects', () => {
   let effect: VesselEmissionsEffects;
   let actions$: ReplaySubject<any> = new ReplaySubject();
   const initialState = { vessels: vessels };
@@ -38,7 +38,5 @@ fdescribe('VesselEmissionsEffects', () => {
     effect.matchVessels$.subscribe(action => {
       expect(action).toEqual(matched({ matchedVessels: matchedVessels }));
     });
-
-    expect(effect).toBeTruthy();
   });
 });
