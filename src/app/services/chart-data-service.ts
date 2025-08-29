@@ -16,7 +16,7 @@ export class ChartDataService {
     return this.actions$.pipe(
       ofType(vesselSelected),
       withLatestFrom(this.store.pipe(select(state => state.emissions))),
-      exhaustMap((args, b) => this.createSeries(args)
+      exhaustMap(args => this.createSeries(args)
         .pipe(
           map(series => ({ type: chartActionsNames.seriesCreated, series: series })),
           catchError(() => EMPTY)
