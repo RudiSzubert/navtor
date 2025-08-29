@@ -13,10 +13,10 @@ import { Dropdown } from '../dropdown/dropdown';
 })
 export class EmissionsComponent implements OnInit {
   private store = inject(Store);
+  private chart?: Highcharts.Chart;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.store.pipe(select(state => state.series)).subscribe(series => {
-      // @ts-ignore I have no idea why this throws errors
       this.chart = Highcharts.chart('highchart-wrapper', {
         chart: {
           zooming: { type: 'xy' },

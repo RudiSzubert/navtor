@@ -18,13 +18,13 @@ export class Dropdown implements OnInit {
   private store = inject(Store);
   protected vessels$: Observable<Vessel[]> = this.store.pipe(select(state => state.matchedVessels));
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.vessels$.pipe(take(1)).subscribe(vessels => {
       this.store.dispatch(vesselSelected({ vesselId: vessels[0].id }))
     });
   }
 
-  public change(e: any) {
+  public change(e: any): void {
     this.store.dispatch(vesselSelected({vesselId: +e.target.value}))
   }
 }

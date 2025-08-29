@@ -1,17 +1,18 @@
 import { inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { catchError, EMPTY, exhaustMap, map, of, withLatestFrom } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, map, Observable, of, withLatestFrom } from 'rxjs';
 import { chartSeries } from '../configs/grid.config';
 import { Emission, EmissionsResponse } from '../interfaces/emission';
 import { chartActionsNames } from '../actions/chart.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { vesselSelected } from '../actions/selectVessel.actions';
+import * as Highcharts from 'highcharts';
 
 export class ChartEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
 
-  createSeries$ = createEffect(() => {
+  createSeries$: Observable<{ type: string, series: Highcharts.SeriesOptionsType[] }> = createEffect(() => {
     return this.actions$.pipe(
       ofType(vesselSelected),
       withLatestFrom(this.store.pipe(select(state => state.emissions))),
@@ -23,7 +24,7 @@ export class ChartEffects {
     );
   });
 
-  private createSeries([vesselId, emissions]: [{ vesselId: number }, EmissionsResponse[]]) {
+  private createSeries([vesselId, emissions]: [{ vesselId: number }, EmissionsResponse[]]): Observable<Highcharts.SeriesOptionsType[]> {
     const series = JSON.parse(JSON.stringify(chartSeries));
     const emission: EmissionsResponse = emissions.find((e: EmissionsResponse) => e.id === vesselId.vesselId) as EmissionsResponse;
 

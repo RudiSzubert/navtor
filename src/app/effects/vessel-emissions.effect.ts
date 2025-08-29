@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { catchError, EMPTY, exhaustMap, map, of, withLatestFrom } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, map, Observable, of, withLatestFrom } from 'rxjs';
 import { EmissionsResponse } from '../interfaces/emission';
 import { Vessel } from '../interfaces/vessel';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -11,7 +11,7 @@ export class VesselEmissionsEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
 
-  matchVessels$ = createEffect(() => {
+  matchVessels$: Observable<{ type: string, matchedVessels: Vessel[] }> = createEffect(() => {
     return this.actions$.pipe(
       ofType(fetchEmissionsSuccess),
       withLatestFrom(this.store.pipe(select(state => state.vessels))),
@@ -23,8 +23,8 @@ export class VesselEmissionsEffects {
     );
   });
 
-  private matchVessels([emissions, vessels]: [{ emissions: EmissionsResponse[] }, Vessel[] ]) {
+  private matchVessels([emissions, vessels]: [{ emissions: EmissionsResponse[] }, Vessel[] ]): Observable<Vessel[]> {
     const matchedVessels = emissions.emissions.map((e: EmissionsResponse) => vessels.find((v: Vessel) => v.id === e.id));
-    return of(matchedVessels);
+    return of(matchedVessels as Vessel[]);
   }
 }
