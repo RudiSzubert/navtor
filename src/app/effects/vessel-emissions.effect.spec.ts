@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
+import { VesselEmissionsEffects } from './vessel-emissions.effect';
 
-import { VesselEmissionsService } from './vessel-emissions.effect';
 
-describe('VesselEmissionsService', () => {
-  let service: VesselEmissionsService;
+describe('VesselEmissionsEffects', () => {
+  let service: VesselEmissionsEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(VesselEmissionsService);
+    service = TestBed.inject(VesselEmissionsEffects);
   });
 
   it('should be created', () => {
