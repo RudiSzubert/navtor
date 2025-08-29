@@ -15,6 +15,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideHighcharts } from 'highcharts-angular';
 import { vesselsReducer } from './reducers/vessels.reducer';
 import { VesselsEffects } from './services/vessels';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const API_URL = new InjectionToken<string>('API_URL');
 
@@ -26,9 +27,10 @@ export const appConfig: ApplicationConfig = {
       { provide: API_URL, useValue: environment.apiUrl },
     provideHttpClient(withInterceptors([urlInterceptor])),
     provideStore(),
+    provideStoreDevtools(),
     provideEffects(),
     provideHighcharts(),
     provideState('vessels', vesselsReducer),
     provideEffects(VesselsEffects)
-  ],
+  ]
 };
