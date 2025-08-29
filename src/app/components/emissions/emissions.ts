@@ -2,7 +2,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as Highcharts from 'highcharts';
 import { Dropdown } from '../dropdown/dropdown';
-import { ChartDataService } from '../../services/chart-data-service';
 
 @Component({
   selector: 'app-emissions',
@@ -14,7 +13,6 @@ import { ChartDataService } from '../../services/chart-data-service';
 })
 export class EmissionsComponent implements OnInit {
   private store = inject(Store);
-  private chartService = inject(ChartDataService);
 
   ngOnInit() {
     this.store.pipe(select(state => state.series)).subscribe(series => {
@@ -26,7 +24,7 @@ export class EmissionsComponent implements OnInit {
         title: { text: '' },
         xAxis: { type: 'datetime' },
         yAxis: [{ title: { text: 'other gases' }, opposite: true }, { title: { text: 'CO₂ scale' } }],
-        series: series.series
+        series: series
       });
     })
   }

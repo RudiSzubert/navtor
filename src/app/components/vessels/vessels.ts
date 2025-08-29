@@ -14,6 +14,6 @@ import { Vessel } from '../../interfaces/vessel';
   styleUrl: './vessels.scss'
 })
 export class VesselsComponent {
-  public vessels: Observable<{ vessels: Vessel[] }> = inject(Store).pipe(select(state => state.vessels));
+  public vessels$: Observable<Vessel[]> = inject(Store).pipe(select(state => state.vessels));
   public colDefs: ColDef[] = colDefs;
 }

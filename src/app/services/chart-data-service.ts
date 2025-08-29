@@ -11,10 +11,10 @@ export class ChartDataService {
 
   constructor() {
     this.store.pipe(select(state => state.vehicleId)).subscribe((vehicleId) => {
-      if (vehicleId.vehicleId) {
+      if (vehicleId) {
         this.store.pipe(select(state => state.emissions), take(1))
           .subscribe((emissions) => {
-            this.createSeries(emissions.emissions.find((e: any) => e.id === vehicleId.vehicleId));
+            this.createSeries(emissions.find((e: any) => e.id === vehicleId));
           });
       }
     })

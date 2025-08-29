@@ -22,8 +22,8 @@ export class VesselEmissionsService {
       this.store.pipe(select(state => state.vessels)),
       this.store.pipe(select(state => state.emissions))
     ).pipe(combineLatestAll()).subscribe(d => {
-      if (d[0].vessels?.length && d[1].emissions?.length) {
-        const vessels = d[1].emissions.map((e: EmissionsResponse) => d[0].vessels.find((v: Vessel) => v.id === e.id));
+      if (d[0]?.length && d[1]?.length) {
+        const vessels = d[1].map((e: EmissionsResponse) => d[0].find((v: Vessel) => v.id === e.id));
         this.store.dispatch(matched({ matchedVessels: vessels }));
       }
     })

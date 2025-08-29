@@ -1,7 +1,7 @@
 <div class="wrapper">
-  @if (vessels | async; as v) {
+  @if (vessels$ | async; as v) {
     <ag-grid-angular
-      [rowData]="v.vessels"
+      [rowData]="v"
       [columnDefs]="colDefs" />
   }
 </div>
