@@ -7,7 +7,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { matchVesselsActionsNames } from '../actions/matchVessels.actions';
 import { fetchEmissionsSuccess } from '../actions/emissions.actions';
 
-@Injectable()
 export class VesselEmissionsEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);

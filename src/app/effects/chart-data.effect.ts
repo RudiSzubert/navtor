@@ -7,7 +7,6 @@ import { chartActionsNames } from '../actions/chart.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { vesselSelected } from '../actions/selectVessel.actions';
 
-@Injectable()
 export class ChartEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
