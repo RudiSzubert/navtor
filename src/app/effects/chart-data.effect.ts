@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { catchError, EMPTY, exhaustMap, map, of, withLatestFrom } from 'rxjs';
 import { chartSeries } from '../configs/grid.config';
