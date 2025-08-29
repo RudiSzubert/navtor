@@ -26,7 +26,7 @@ export class ChartDataService {
 
   private createSeries([vesselId, emissions]: [{ vesselId: number }, EmissionsResponse[]]) {
     const series = JSON.parse(JSON.stringify(chartSeries));
-    const emission: EmissionsResponse = emissions.find((e: any) => e.id === vesselId.vesselId) as EmissionsResponse;
+    const emission: EmissionsResponse = emissions.find((e: EmissionsResponse) => e.id === vesselId.vesselId) as EmissionsResponse;
 
     series.forEach((item: { data: Array<[string, number]>, emission_name: string }) => {
       item.data = emission.timeSeries.map((elem: Emission) => {
