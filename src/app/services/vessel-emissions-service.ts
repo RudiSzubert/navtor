@@ -1,31 +1,36 @@
 import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatestAll, of, take } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, map, of, withLatestFrom } from 'rxjs';
 import { EmissionsResponse } from '../interfaces/emission';
 import { Vessel } from '../interfaces/vessel';
-import { Actions, ofType } from '@ngrx/effects';
-import { match, matched } from '../actions/matchVessels.actions';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { matchVesselsActionsNames } from '../actions/matchVessels.actions';
+import { fetchEmissionsSuccess } from '../actions/emissions.actions';
 
 @Injectable()
 export class VesselEmissionsService {
+  public matchVessels([emissions, vessels]: [{ emissions: EmissionsResponse[] }, Vessel[] ]) {
+    const matchedVessels = emissions.emissions.map((e: EmissionsResponse) => vessels.find((v: Vessel) => v.id === e.id));
+    return of(matchedVessels);
+  }
+}
+
+
+@Injectable()
+export class VesselEmissionsEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
+  private vesselEmission = inject(VesselEmissionsService);
 
-  constructor() {
-    this.actions$.pipe(ofType(match), take(1)).subscribe(e => {
-      this.matchVessels();
-    });
-  }
-
-  private matchVessels() {
-    of(
-      this.store.pipe(select(state => state.vessels)),
-      this.store.pipe(select(state => state.emissions))
-    ).pipe(combineLatestAll()).subscribe(([vessels, emissions]) => {
-      if (vessels?.length && emissions?.length) {
-        const matchedVessels = emissions.map((e: EmissionsResponse) => vessels.find((v: Vessel) => v.id === e.id));
-        this.store.dispatch(matched({ matchedVessels: matchedVessels }));
-      }
-    })
-  }
+  matchVessels$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(fetchEmissionsSuccess),
+      withLatestFrom(this.store.pipe(select(state => state.vessels))),
+      exhaustMap(args => this.vesselEmission.matchVessels(args)
+        .pipe(
+          map(vessels => ({ type: matchVesselsActionsNames.matched, matchedVessels: vessels })),
+          catchError(() => EMPTY)
+        ))
+    );
+  });
 }
