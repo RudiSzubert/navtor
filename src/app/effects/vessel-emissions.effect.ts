@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { catchError, EMPTY, exhaustMap, map, Observable, of, withLatestFrom } from 'rxjs';
 import { EmissionsResponse } from '../interfaces/emission';
@@ -7,6 +7,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { matchVesselsActionsNames } from '../actions/matchVessels.actions';
 import { fetchEmissionsSuccess } from '../actions/emissions.actions';
 
+@Injectable()
 export class VesselEmissionsEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);

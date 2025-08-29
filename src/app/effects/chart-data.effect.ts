@@ -1,4 +1,4 @@
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { catchError, EMPTY, exhaustMap, map, Observable, of, withLatestFrom } from 'rxjs';
 import { chartSeries } from '../configs/grid.config';
@@ -8,6 +8,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { vesselSelected } from '../actions/selectVessel.actions';
 import * as Highcharts from 'highcharts';
 
+@Injectable()
 export class ChartEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
