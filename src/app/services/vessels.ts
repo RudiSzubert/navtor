@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { Vessel } from '../interfaces/vessel';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { vesselsActionsNames, fetchVessels } from '../actions/vessels.actions';
-import { catchError, EMPTY, exhaustMap, map } from 'rxjs';
+import { catchError, EMPTY, exhaustMap, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class VesselsService {
   private http = inject(HttpClient);
 
-  public getVessels() {
+  public getVessels(): Observable<Vessel[]> {
     return this.http.get<Vessel[]>('/vessels.json');
   }
 }

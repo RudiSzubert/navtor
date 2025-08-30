@@ -6,7 +6,7 @@ import { provideZonelessChangeDetection } from '@angular/core';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { vesselSelected } from '../../actions/selectVessel.actions';
 
-fdescribe('Dropdown', () => {
+describe('Dropdown', () => {
   let component: Dropdown;
   let fixture: ComponentFixture<Dropdown>;
   let mockStore: MockStore;

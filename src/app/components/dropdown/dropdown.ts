@@ -20,11 +20,13 @@ export class Dropdown implements OnInit {
 
   ngOnInit(): void {
     this.vessels$.pipe(take(1)).subscribe(vessels => {
-      this.store.dispatch(vesselSelected({ vesselId: vessels[0].id }))
+      if (vessels?.length) {
+        this.store.dispatch(vesselSelected({ vesselId: vessels[0].id }));
+      }
     });
   }
 
   public change(e: any): void {
-    this.store.dispatch(vesselSelected({vesselId: +e.target.value}))
+    this.store.dispatch(vesselSelected({vesselId: +e.target.value}));
   }
 }

@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VesselsComponent } from './vessels';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 
 describe('Vessels', () => {
@@ -8,7 +10,11 @@ describe('Vessels', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VesselsComponent]
+      imports: [VesselsComponent],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideMockStore({})
+      ]
     })
     .compileComponents();
 

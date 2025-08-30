@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { EmissionsComponent } from './emissions';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 
 describe('EmissionsComponent', () => {
@@ -8,7 +10,11 @@ describe('EmissionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EmissionsComponent]
+      imports: [EmissionsComponent],
+      providers: [
+        provideZonelessChangeDetection(),
+        provideMockStore({})
+      ]
     })
     .compileComponents();
 

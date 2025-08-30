@@ -1,16 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EmissionsService } from './emissions.service';
+import { EmissionsEffects, EmissionsService } from './emissions.service';
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { ReplaySubject } from 'rxjs';
 
-describe('EmissionsService', () => {
-  let service: EmissionsService;
+describe('EmissionsEffects', () => {
+  let effect: EmissionsEffects;
+  let actions$: ReplaySubject<any> = new ReplaySubject();
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(EmissionsService);
+    TestBed.configureTestingModule({
+      providers: [
+        EmissionsEffects,
+        EmissionsService,
+        provideMockActions(() => actions$),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideZonelessChangeDetection()
+      ]
+    });
+    effect = TestBed.inject(EmissionsEffects);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(effect).toBeTruthy();
   });
 });
