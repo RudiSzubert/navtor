@@ -1,12 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { VesselsEffects } from './vessels';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideMockStore } from '@ngrx/store/testing';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { fetchVessels, fetchVesselsSuccess } from '../actions/vessels.actions';
+import { VesselsEffects } from './vessels.effect';
 
 
 

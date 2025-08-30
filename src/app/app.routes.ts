@@ -3,7 +3,7 @@ import { paths } from './configs/paths';
 import { provideState } from '@ngrx/store';
 import { emissionsReducer } from './reducers/emissions.reducer';
 import { provideEffects } from '@ngrx/effects';
-import { EmissionsEffects, EmissionsService } from './services/emissions.service';
+import { EmissionsService } from './services/emissions.service';
 import { emissionsResolver } from './resolvers/emissions.resolver';
 import { registerAgGrid } from './resolvers/vessels.resolver';
 import { VesselEmissionsEffects } from './effects/vessel-emissions.effect';
@@ -11,6 +11,7 @@ import { matchVesselsReducer } from './reducers/matchVessels.reducer';
 import { ChartEffects } from './effects/chart-data.effect';
 import { chartReducer } from './reducers/chart.reducer';
 import { selectVesselStateReducer } from './reducers/selectVessel.reducer';
+import { EmissionsEffects } from './effects/emissions.effect';
 
 export const routes: Routes = [
   { path: paths.vessels,
