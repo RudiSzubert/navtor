@@ -3,13 +3,11 @@ import { data as matchedVessels } from '../../../app/mocks/matchedVessels.json'
 
 import { Dropdown } from './dropdown';
 import { provideZonelessChangeDetection } from '@angular/core';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { vesselSelected } from '../../actions/selectVessel.actions';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('Dropdown', () => {
   let component: Dropdown;
   let fixture: ComponentFixture<Dropdown>;
-  let mockStore: MockStore;
   const initialState = { matchedVessels: matchedVessels };
 
   beforeEach(async () => {
@@ -24,7 +22,6 @@ describe('Dropdown', () => {
 
     fixture = TestBed.createComponent(Dropdown);
     component = fixture.componentInstance;
-    mockStore = TestBed.inject(MockStore);
     fixture.detectChanges();
   });
 
@@ -32,10 +29,10 @@ describe('Dropdown', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should dispatch action with id', () => {
-    spyOn(mockStore, 'dispatch');
+  it('should emit vesselId', () => {
+    spyOn(component.vesselId, 'emit');
     component.change({ target: { value: 2137 }})
 
-    expect(mockStore.dispatch).toHaveBeenCalledWith(vesselSelected({ vesselId: 2137 }));
+    expect(component.vesselId.emit).toHaveBeenCalledWith( 2137 );
   });
 });

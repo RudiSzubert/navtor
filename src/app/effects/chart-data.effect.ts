@@ -1,39 +1,43 @@
 import { inject, Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { catchError, EMPTY, exhaustMap, map, Observable, of, withLatestFrom } from 'rxjs';
-import { chartSeries } from '../configs/grid.config';
+import { chartOptions } from '../configs/grid.config';
 import { Emission, EmissionsResponse } from '../interfaces/emission';
 import { chartActionsNames } from '../actions/chart.actions';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { vesselSelected } from '../actions/selectVessel.actions';
-import * as Highcharts from 'highcharts';
+import { VesselForChartAction } from '../actions/selectVessel.actions';
+import { VesselForChart } from '../reducers/selectVessel.reducer';
+import { ChartDataCreated } from '../reducers/chart.reducer';
 
 @Injectable()
 export class ChartEffects {
   private store = inject(Store);
   private actions$ = inject(Actions);
 
-  createSeries$: Observable<{ type: string, series: Highcharts.SeriesOptionsType[] }> = createEffect(() => {
+  createChart$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(vesselSelected),
+      ofType(VesselForChartAction),
       withLatestFrom(this.store.pipe(select(state => state.emissions))),
-      exhaustMap(args => this.createSeries(args)
+      exhaustMap(args => this.createChart(args)
         .pipe(
-          map(series => ({ type: chartActionsNames.seriesCreated, series: series })),
+          map(chartData => ({ type: chartActionsNames.chartCreated, ...chartData })),
           catchError(() => EMPTY)
         ))
     );
   });
 
-  private createSeries([vesselId, emissions]: [{ vesselId: number }, EmissionsResponse[]]): Observable<Highcharts.SeriesOptionsType[]> {
-    const series = JSON.parse(JSON.stringify(chartSeries));
-    const emission: EmissionsResponse = emissions.find((e: EmissionsResponse) => e.id === vesselId.vesselId) as EmissionsResponse;
+  private createChart([data, emissions]: [VesselForChart, EmissionsResponse[]]): Observable<ChartDataCreated> {
+      const options = JSON.parse(JSON.stringify(chartOptions));
+      const emission: EmissionsResponse = emissions.find((e: EmissionsResponse) => e.id === data.vesselId) as EmissionsResponse;
 
-    series.forEach((item: { data: Array<[string, number]>, emission_name: string }) => {
-      item.data = emission.timeSeries.map((elem: Emission) => {
-        return [elem.report_from_utc, elem[item.emission_name]];
+      options.series.forEach((item: { data: Array<[string, number]>, emission_name: string }) => {
+        item.data = emission.timeSeries.map((elem: Emission) => {
+          return [elem.report_from_utc, elem[item.emission_name]];
+        })
       })
-    })
-    return of(series);
+      return of({
+        targetComponentId: data.componentId,
+        options: options
+      } as ChartDataCreated);
   }
 }

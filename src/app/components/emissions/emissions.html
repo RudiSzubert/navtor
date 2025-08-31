@@ -1,2 +1,5 @@
-<app-dropdown></app-dropdown>
-<div id="highchart-wrapper"></div>
+@for (id of chartComponents;track id) {
+  <app-chart [componentId]="id"></app-chart>
+}
+<button (click)="addChart()">Add chart</button>
+

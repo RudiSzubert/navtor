@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { ChartEffects } from './chart-data.effect';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { data } from '../../app/mocks/emissions.json'
-import { series } from '../../app/mocks/series.json'
-import { vesselSelected } from '../actions/selectVessel.actions';
-import { seriesCreated } from '../actions/chart.actions';
+import { options } from '../mocks/chartOptions.json'
+import { VesselForChartAction } from '../actions/selectVessel.actions';
+import { chartCreated } from '../actions/chart.actions';
 import * as Highcharts from 'highcharts';
 
 describe('ChartDataEffect', () => {
@@ -33,10 +33,10 @@ describe('ChartDataEffect', () => {
   });
 
   it('should find correct vessels', () => {
-    actions$.next(vesselSelected({ vesselId: 10002 }));
+    actions$.next(VesselForChartAction({ vesselId: 10002, componentId: 'componentId' }));
 
-    effect.createSeries$.subscribe(action => {
-      expect(action).toEqual(seriesCreated({ series: series as Highcharts.SeriesOptionsType[] }));
+    effect.createChart$.subscribe(action => {
+      expect(action).toEqual(chartCreated({ targetComponentId: 'componentId', options: options as Highcharts.Options }));
     });
   });
 });

@@ -1,13 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import * as Highcharts from 'highcharts';
+import { ChartDataCreated } from '../reducers/chart.reducer';
 
 export const chartActionsNames = {
-  seriesCreated: '[Chart] created series',
-  createSeries: '[Chart] start creating series',
+  chartCreated: '[Chart] created series',
+  createChart: '[Chart] start creating series',
 };
 
-export const seriesCreated =
-  createAction(chartActionsNames.seriesCreated, props<{ series: Highcharts.SeriesOptionsType[] }>());
-export const createSeries =
-  createAction(chartActionsNames.createSeries);
+export const chartCreated =
+  createAction(chartActionsNames.chartCreated, props<ChartDataCreated>());
+export const createChart =
+  createAction(chartActionsNames.createChart);
 

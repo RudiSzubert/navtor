@@ -1,9 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
-export const selectActionsNames = {
-  vesselSelected: '[Select] vessel selected',
-};
+export const VesselForChartActionName = '[Select] vessel for chart selected';
 
-export const vesselSelected =
-  createAction(selectActionsNames.vesselSelected, props<{ vesselId: number }>());
+export const VesselForChartAction =
+  createAction(VesselForChartActionName, props<{ vesselId: number, componentId: string }>());
 

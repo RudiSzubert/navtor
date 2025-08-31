@@ -20,12 +20,12 @@ export const routes: Routes = [
   },
   {
     path: paths.emissions,
-    loadComponent: () => import('./components/emissions/emissions').then(m => m.EmissionsComponent),
+    loadComponent: () => import('./components/emissions/emissions').then(m => m.Emissions),
     providers: [
       EmissionsService,
       provideState('emissions', emissionsReducer),
       provideState('matchedVessels', matchVesselsReducer),
-      provideState('series', chartReducer),
+      provideState('chartData', chartReducer),
       provideState('vesselId', selectVesselStateReducer),
       provideEffects(EmissionsEffects, ChartEffects, VesselEmissionsEffects)
     ],

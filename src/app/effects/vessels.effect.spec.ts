@@ -30,7 +30,7 @@ describe('VesselsEffects', () => {
     expect(effect).toBeTruthy();
   });
 
-  it('should match proper emissions with vehicles', () => {
+  it('should match proper chart with vehicles', () => {
 
   });
 });

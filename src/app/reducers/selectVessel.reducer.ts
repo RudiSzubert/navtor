@@ -1,9 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
-import * as SelectVesselActions from '../actions/selectVessel.actions';
+import { VesselForChartAction } from '../actions/selectVessel.actions';
 
-export const initialState: number = 0;
+export interface VesselForChart { vesselId: number, componentId: string }
+export const initialState: VesselForChart = { vesselId: 0, componentId: '' };
 
 export const selectVesselStateReducer = createReducer(
   initialState,
-  on(SelectVesselActions.vesselSelected, (state, { vesselId }) => vesselId)
+  on(VesselForChartAction, (state, { vesselId, componentId }) =>
+    ({ vesselId, componentId }))
 );

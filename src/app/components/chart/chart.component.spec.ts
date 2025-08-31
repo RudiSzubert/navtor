@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Emissions } from './emissions';
+import { ChartComponent } from './chart.component';
 import { provideZonelessChangeDetection } from '@angular/core';
 import { provideMockStore } from '@ngrx/store/testing';
 
-describe('Emissions', () => {
-  let component: Emissions;
-  let fixture: ComponentFixture<Emissions>;
+
+describe('ChartComponent', () => {
+  let component: ChartComponent;
+  let fixture: ComponentFixture<ChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Emissions],
+      imports: [ChartComponent],
       providers: [
         provideZonelessChangeDetection(),
         provideMockStore({})
@@ -18,7 +18,7 @@ describe('Emissions', () => {
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Emissions);
+    fixture = TestBed.createComponent(ChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
